@@ -11,10 +11,10 @@ function wait_for_server() {
   done
 }
 
-echo "=> Starting WildFly server"
+echo "=> Starting WildFly Server"
 $JBOSS_HOME/bin/$JBOSS_MODE.sh -c $JBOSS_CONFIG > /dev/null &
 
-echo "=> Waiting for the server to boot"
+echo "=> Waiting Server finish startup"
 wait_for_server
 
 echo "=> Executing the commands"
