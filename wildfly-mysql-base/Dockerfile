@@ -8,13 +8,7 @@ ENV MYSQL_SERVER=127.0.0.1 \
 	
 COPY customization /opt/jboss/wildfly/customization/
 
-USER root
-
-RUN chown -R jboss:root /opt/jboss/wildfly/customization/
-
-USER jboss
-
-RUN	/opt/jboss/wildfly/customization/execute.sh
+RUN /opt/jboss/wildfly/customization/execute.sh
 
 USER root
 
@@ -23,6 +17,6 @@ RUN chgrp -R 0 /opt/jboss/wildfly/standalone && \
 	rm -rf /opt/jboss/wildfly/customization/ && \
 	rm -rf /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current/*
 	
-USER jboss
+USER 1001
 
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
