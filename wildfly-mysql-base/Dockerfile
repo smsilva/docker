@@ -1,9 +1,9 @@
-FROM jboss/wildfly:11.0.0.Final
+FROM jboss/wildfly:13.0.0.Final
 
 ENV MYSQL_SERVER=127.0.0.1 \
     MYSQL_PORT=3306 \
-    MYSQL_DATABASE=sampledb \
-    MYSQL_USER=user \
+    MYSQL_DATABASE=database \
+    MYSQL_USER=username \
     MYSQL_PASSWORD=password
 	
 COPY customization /opt/jboss/wildfly/customization/

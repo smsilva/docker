@@ -1,2 +1,3 @@
-FROM wildfly-mysql-base:11
-ADD /target/*.war /opt/jboss/wildfly/standalone/deployments/ 
+FROM wildfly-mysql-base:13
+
+ADD /target/*.war /opt/jboss/wildfly/standalone/deployments/

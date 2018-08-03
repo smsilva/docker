@@ -2,10 +2,21 @@
 batch
 
 # Add MySQL driver
-deploy /opt/jboss/wildfly/customization/jdbc/mysql-connector-java-5.1.39-bin.jar
+deploy /opt/jboss/wildfly/customization/jdbc/mysql-connector-java-8.0.11.jar
 
 # Add a New Datasource
-data-source add --name=MySqlDS --driver-name=mysql-connector-java-5.1.39-bin.jar_com.mysql.jdbc.Driver_5_1 --jndi-name=java:/datasources/MySqlDS --connection-url="jdbc:mysql://${env.MYSQL_SERVER}:${env.MYSQL_PORT}/${env.MYSQL_DATABASE}?useUnicode=true&amp;characterEncoding=UTF-8" --user-name=${env.MYSQL_USER} --password=${env.MYSQL_PASSWORD} --use-ccm=false --max-pool-size=25 --blocking-timeout-wait-millis=5000 --enabled=true
+data-source add \
+--name=MySqlDS \
+--driver-name=mysql-connector-java-8.0.11.jar \
+--driver-class=com.mysql.cj.jdbc.Driver \
+--jndi-name=java:/datasources/MySqlDS \
+--connection-url="jdbc:mysql://${env.MYSQL_SERVER}:${env.MYSQL_PORT}/${env.MYSQL_DATABASE}" \
+--user-name="${env.MYSQL_USER}" \
+--password="${env.MYSQL_PASSWORD}" \
+--use-ccm=false \
+--max-pool-size=25 \
+--blocking-timeout-wait-millis=5000 \
+--enabled=true
 
-# Execute the batch
+## Execute the batch
 run-batch
