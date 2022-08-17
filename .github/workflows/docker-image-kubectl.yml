@@ -19,3 +19,8 @@ jobs:
           pwd
           find
         shell: bash
+
+      - name: kubectl binary download
+        shell: bash
+        run: kubectl/donwload-binary.sh
+ 

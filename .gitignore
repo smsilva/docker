@@ -1,0 +1,13 @@
+*_override.tf
+*_override.tf.json
+*.tfstate
+*.tfstate.*
+**/backend.conf
+**/.terraform.*
+**/.terraform/
+**/.terraform/*
+**/examples/**/deploy
+**/docker_build_temp
+crash.log
+override.tf
+override.tf.json
