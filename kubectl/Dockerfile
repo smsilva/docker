@@ -1,8 +1,14 @@
 FROM alpine:3.16.2
+
 RUN apk --no-cache add \
   bash \
   curl \
   bind-tools
-ADD docker_build_temp/kubectl* /opt/kubernetes/kubectl
+
+RUN mkdir -p /opt/kubernetes && \
+  wget \
+    --output-document /opt/kubernetes/kubectl \
+    https://dl.k8s.io/release/v1.22.12/bin/linux/amd64/kubectl && \
+  chmod +x /opt/kubernetes/kubectl
+
 ENV PATH=${PATH?}:/opt/kubernetes/
-RUN chmod +x /opt/kubernetes/kubectl

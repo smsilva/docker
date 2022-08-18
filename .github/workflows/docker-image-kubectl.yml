@@ -15,10 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        
-      - name: kubectl binary download
-        shell: bash
-        run: kubectl/donwload-binary.sh
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
