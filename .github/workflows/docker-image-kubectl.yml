@@ -2,10 +2,7 @@ name: Docker Image kubectl CI
 
 on:
   push:
-    branches: [ "master" ]
-
-  pull_request:
-    branches: [ "master" ]
+    branches: [ "release" ]
 
 jobs:
   deployment:
