@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run \
+  --rm \
+  --env MONGODB_HOST=${MONGODB_HOST?} \
+  --env MONGODB_DATABASE_NAME=${MONGODB_DATABASE_NAME?} \
+  --env MONGODB_USERNAME=${MONGODB_USERNAME?} \
+  --env MONGODB_PASSWORD=${MONGODB_PASSWORD?} \
+  mongoshell:latest

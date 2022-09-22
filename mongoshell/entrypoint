@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo ""
+echo "MONGODB_HOST..........: ${MONGODB_HOST}"
+echo "MONGODB_DATABASE_NAME.: ${MONGODB_DATABASE_NAME}"
+echo "MONGODB_USERNAME......: ${MONGODB_USERNAME}"
+echo "MONGODB_PASSWORD......: ${MONGODB_PASSWORD:0:3}"
+echo ""
+
+mongosh "mongodb+srv://${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}" \
+  --username ${MONGODB_USERNAME?} \
+  --password ${MONGODB_PASSWORD?} \
+  --eval 'printjson(db.version())' \
+  --eval 'show collections' \
+  --eval 'printjson(db.posts.find( {} ))'
