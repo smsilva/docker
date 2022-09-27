@@ -5,7 +5,7 @@ on:
     branches:
       - release
     paths:
-      - kubectl
+      - utils
 
 jobs:
   deployment:
@@ -31,6 +31,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: "./kubectl"
+          context: "./utils"
           push: true
-          tags: silviosilva/kubectl:latest
+          tags: silviosilva/utils:latest
