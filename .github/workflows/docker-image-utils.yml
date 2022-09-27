@@ -1,4 +1,4 @@
-name: Docker Image utils CI
+name: Build utils image
 
 on:
   push:
