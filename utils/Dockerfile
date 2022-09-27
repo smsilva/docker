@@ -4,4 +4,4 @@ RUN apk --no-cache add \
   curl \
   bind-tools
 
-ENV DEBUG_LEVEL=1
+ENV DEBUG_LEVEL=2
