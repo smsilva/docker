@@ -1,9 +1,13 @@
 FROM ubuntu:22.04
 
 RUN apt-get update && \
-    apt-get upgrade --yes && \
-    apt-get install --yes \
+    apt-get upgrade --yes
+
+RUN apt-get install --yes \
+      curl \
+      dnsutils \
       jq \
+      tcpdump \
       wget
 
 RUN mkdir -p /opt/mongodb/install && \
