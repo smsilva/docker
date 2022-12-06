@@ -1,15 +1,23 @@
 #!/bin/bash
+if [ -z "${MONGODB_COMMAND}" ]; then
+  export MONGODB_COMMAND='printjson(db.accounts.find( {} ))'
+fi
 
 echo ""
-echo "MONGODB_HOST..........: ${MONGODB_HOST}"
-echo "MONGODB_DATABASE_NAME.: ${MONGODB_DATABASE_NAME}"
-echo "MONGODB_USERNAME......: ${MONGODB_USERNAME}"
-echo "MONGODB_PASSWORD......: ${MONGODB_PASSWORD:0:3}"
+echo "MONGODB_HOST..............: ${MONGODB_HOST}"
+echo "MONGODB_DATABASE_NAME.....: ${MONGODB_DATABASE_NAME}"
+echo "MONGODB_USERNAME..........: ${MONGODB_USERNAME}"
+echo "MONGODB_PASSWORD..........: ${MONGODB_PASSWORD:0:3}"
+echo "MONGODB_CONNECTION_STRING.: ${MONGODB_CONNECTION_STRING:0:25}"
+echo "MONGODB_COMMAND...........: ${MONGODB_COMMAND}"
 echo ""
 
-mongosh "mongodb+srv://${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}" \
-  --username ${MONGODB_USERNAME?} \
-  --password ${MONGODB_PASSWORD?} \
-  --eval 'printjson(db.version())' \
-  --eval 'show collections' \
-  --eval 'printjson(db.posts.find( {} ))'
+if [ -z "${MONGODB_CONNECTION_STRING}" ]; then
+  mongosh "mongodb+srv://${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}" \
+    --username ${MONGODB_USERNAME?} \
+    --password ${MONGODB_PASSWORD?} \
+    --eval "${MONGODB_COMMAND}"
+else
+  mongosh "${MONGODB_CONNECTION_STRING}" \
+    --eval "${MONGODB_COMMAND}"
+fi
