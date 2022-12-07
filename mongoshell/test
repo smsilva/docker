@@ -1,5 +1,13 @@
 #!/bin/bash
+echo
+echo "1. Build"
+echo
+
 docker build -t mongoshell .
+
+echo
+echo "2. Default"
+echo
 
 docker run \
   --rm \
@@ -9,6 +17,10 @@ docker run \
   --env MONGODB_PASSWORD=${MONGODB_PASSWORD?} \
   mongoshell:latest \
     --debug 1
+
+echo
+echo "3. Custom command"
+echo
 
 docker run \
   --rm \
@@ -22,7 +34,13 @@ docker run \
 export MONGODB_PASSWORD_URL_ENCODED=$(printf %s "${MONGODB_PASSWORD?}" | jq -sRr @uri)
 export MONGODB_CONNECTION_STRING="mongodb+srv://${MONGODB_USERNAME?}:${MONGODB_PASSWORD_URL_ENCODED}@${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}?readPreference=secondaryPreferred&readPreferenceTags=workloadType:OPERATIONAL&retryWrites=true&w=majority&maxStalenessSeconds=90&maxIdleTimeMS=1500000&appName=mongoshell&minPoolSize=10"
 
+echo
+echo "4. Connection string"
+echo
+
 docker run \
   --rm \
   --env MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING?} \
   mongoshell:latest
+
+echo

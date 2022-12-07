@@ -77,7 +77,6 @@ if [ -z "${MONGODB_COMMAND}" ]; then
 fi
 
 if [ "${DEBUG_LEVEL}" -ge 1 ]; then
-  echo ""
   echo "MONGODB_HOST..............: ${MONGODB_HOST}"
   echo "MONGODB_DATABASE_NAME.....: ${MONGODB_DATABASE_NAME}"
   echo "MONGODB_USERNAME..........: ${MONGODB_USERNAME}"

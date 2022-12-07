@@ -10,12 +10,12 @@ RUN apt-get install --yes \
       tcpdump \
       wget
 
-RUN mkdir -p /opt/mongodb/install && \
+RUN mkdir -p /tmp/mongodb/install && \
     wget \
-      --output-document /opt/mongodb/install/mongodb-mongosh.deb \
+      --output-document /tmp/mongodb/install/mongodb-mongosh.deb \
       "https://downloads.mongodb.com/compass/mongodb-mongosh_1.6.0_amd64.deb"
 
-RUN dpkg -i /opt/mongodb/install/mongodb-mongosh.deb
+RUN dpkg -i /tmp/mongodb/install/mongodb-mongosh.deb
 
 ADD entrypoint /opt/mongodb/entrypoint
 
