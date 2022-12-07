@@ -20,3 +20,5 @@ FROM base
 ADD entrypoint /opt/mongodb/entrypoint
 
 ENTRYPOINT ["/opt/mongodb/entrypoint"]
+
+WORKDIR /opt/mongodb/
