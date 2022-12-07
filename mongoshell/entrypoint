@@ -1,23 +1,112 @@
 #!/bin/bash
-if [ -z "${MONGODB_COMMAND}" ]; then
-  export MONGODB_COMMAND='printjson(db.accounts.find( {} ))'
+export THIS_SCRIPT_NAME=$0
+export THIS_SCRIPT_DIRECTORY=$(dirname $0)
+export PATH=${PATH}:${THIS_SCRIPT_DIRECTORY}
+
+show_usage() {
+  cat <<EOF
+
+  ${THIS_SCRIPT_NAME} \\
+    --host \${MONGODB_HOST} \\
+    --database \${MONGODB_DATABASE_NAME} \\
+    --user \${MONGODB_USERNAME} \\
+    --password \${MONGODB_PASSWORD} \\
+    --command 'printjson(db.accounts.find( { "account_id": 702610 } ))' \\
+    --debug 0
+
+  ${THIS_SCRIPT_NAME} \\
+    --host \${MONGODB_HOST} \\
+    --database \${MONGODB_DATABASE_NAME} \\
+    --user \${MONGODB_USERNAME} \\
+    --password \${MONGODB_PASSWORD} \\
+    --command 'printjson(db.version())' \\
+    --debug 1
+
+EOF
+}
+
+while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
+case $1 in
+  -h | --help )
+    show_usage
+    exit
+    ;;
+
+  -h | --host )
+    shift; MONGODB_HOST=$1
+    ;;
+
+  -d | --database )
+    shift; MONGODB_DATABASE_NAME=$1
+    ;;
+
+  -u | --user )
+    shift; MONGODB_USERNAME=$1
+    ;;
+
+  -p | --password )
+    shift; MONGODB_PASSWORD=$1
+    ;;
+
+  --command )
+    shift; MONGODB_COMMAND=$1
+    ;;
+
+  -c | --connection-string )
+    shift; MONGODB_CONNECTION_STRING=$1
+    ;;
+
+  --debug | --debug-level )
+    shift; DEBUG_LEVEL=$1
+    ;;
+esac; shift; done
+
+if [[ "$1" == '--' ]]; then shift; fi
+
+if [ -z "${MONGODB_HOST}${MONGODB_DATABASE_NAME}${MONGODB_USERNAME}${MONGODB_PASSWORD}" ] && \
+   [ -z "${MONGODB_CONNECTION_STRING}" ]; then
+  echo "You must informa MONGODB parameters."
+  show_usage
+  exit 1
 fi
 
-echo ""
-echo "MONGODB_HOST..............: ${MONGODB_HOST}"
-echo "MONGODB_DATABASE_NAME.....: ${MONGODB_DATABASE_NAME}"
-echo "MONGODB_USERNAME..........: ${MONGODB_USERNAME}"
-echo "MONGODB_PASSWORD..........: ${MONGODB_PASSWORD:0:3}"
-echo "MONGODB_CONNECTION_STRING.: ${MONGODB_CONNECTION_STRING:0:25}"
-echo "MONGODB_COMMAND...........: ${MONGODB_COMMAND}"
-echo ""
+export DEBUG_LEVEL="${DEBUG_LEVEL-0}"
+
+if [ -z "${MONGODB_COMMAND}" ]; then
+  export MONGODB_COMMAND='printjson(db.version())'
+fi
+
+if [ "${DEBUG_LEVEL}" -ge 1 ]; then
+  echo ""
+  echo "MONGODB_HOST..............: ${MONGODB_HOST}"
+  echo "MONGODB_DATABASE_NAME.....: ${MONGODB_DATABASE_NAME}"
+  echo "MONGODB_USERNAME..........: ${MONGODB_USERNAME}"
+  echo "MONGODB_PASSWORD..........: ${MONGODB_PASSWORD:0:3}"
+  echo "MONGODB_CONNECTION_STRING.: ${MONGODB_CONNECTION_STRING:0:25}"
+  echo "MONGODB_COMMAND...........: ${MONGODB_COMMAND}"
+  echo ""
+fi
 
 if [ -z "${MONGODB_CONNECTION_STRING}" ]; then
-  mongosh "mongodb+srv://${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}" \
-    --username ${MONGODB_USERNAME?} \
-    --password ${MONGODB_PASSWORD?} \
-    --eval "${MONGODB_COMMAND}"
+  if [ "${DEBUG_LEVEL}" -eq 0 ]; then
+    mongosh "mongodb+srv://${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}" \
+      --username ${MONGODB_USERNAME?} \
+      --password ${MONGODB_PASSWORD?} \
+      --quiet \
+      --eval "${MONGODB_COMMAND}"
+  else
+    mongosh "mongodb+srv://${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}" \
+      --username ${MONGODB_USERNAME?} \
+      --password ${MONGODB_PASSWORD?} \
+      --eval "${MONGODB_COMMAND}"
+  fi
 else
-  mongosh "${MONGODB_CONNECTION_STRING}" \
-    --eval "${MONGODB_COMMAND}"
+  if [ "${DEBUG_LEVEL}" -eq 0 ]; then
+    mongosh "${MONGODB_CONNECTION_STRING}" \
+      --eval "${MONGODB_COMMAND}" \
+      --quiet
+  else
+    mongosh "${MONGODB_CONNECTION_STRING}" \
+      --eval "${MONGODB_COMMAND}"
+  fi
 fi

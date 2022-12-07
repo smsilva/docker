@@ -19,4 +19,4 @@ RUN dpkg -i /opt/mongodb/install/mongodb-mongosh.deb
 
 ADD entrypoint /opt/mongodb/entrypoint
 
-CMD ["/opt/mongodb/entrypoint"]
+ENTRYPOINT ["/opt/mongodb/entrypoint"]

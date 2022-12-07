@@ -7,7 +7,17 @@ docker run \
   --env MONGODB_DATABASE_NAME=${MONGODB_DATABASE_NAME?} \
   --env MONGODB_USERNAME=${MONGODB_USERNAME?} \
   --env MONGODB_PASSWORD=${MONGODB_PASSWORD?} \
-  mongoshell:latest
+  mongoshell:latest \
+    --debug 1
+
+docker run \
+  --rm \
+  --env MONGODB_HOST=${MONGODB_HOST?} \
+  --env MONGODB_DATABASE_NAME=${MONGODB_DATABASE_NAME?} \
+  --env MONGODB_USERNAME=${MONGODB_USERNAME?} \
+  --env MONGODB_PASSWORD=${MONGODB_PASSWORD?} \
+  mongoshell:latest \
+    --command 'printjson(db.accounts.find( { "account_id": 702610 } ))'
 
 export MONGODB_PASSWORD_URL_ENCODED=$(printf %s "${MONGODB_PASSWORD?}" | jq -sRr @uri)
 export MONGODB_CONNECTION_STRING="mongodb+srv://${MONGODB_USERNAME?}:${MONGODB_PASSWORD_URL_ENCODED}@${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}?readPreference=secondaryPreferred&readPreferenceTags=workloadType:OPERATIONAL&retryWrites=true&w=majority&maxStalenessSeconds=90&maxIdleTimeMS=1500000&appName=mongoshell&minPoolSize=10"
