@@ -7,6 +7,7 @@ RUN apt-get install --yes \
       curl \
       dnsutils \
       jq \
+      mtr \
       tcpdump \
       wget
 
