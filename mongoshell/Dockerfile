@@ -12,7 +12,8 @@ RUN apt-get install --yes \
       wget
 
 RUN mkdir --parents /tmp/mongodb/install && \
-    wget --output-document /tmp/mongodb/install/mongodb-mongosh.deb "https://downloads.mongodb.com/compass/mongodb-mongosh_1.6.0_amd64.deb" && \
+    wget "https://downloads.mongodb.com/compass/mongodb-mongosh_1.6.0_amd64.deb" \
+      --output-document /tmp/mongodb/install/mongodb-mongosh.deb && \
     dpkg -i /tmp/mongodb/install/mongodb-mongosh.deb && \
     rm -rf /tmp/mongodb/install/
 
