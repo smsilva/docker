@@ -44,3 +44,11 @@ docker run \
   mongoshell:latest
 
 echo
+echo "5. TCP Ping"
+echo
+
+docker run \
+  --rm \
+  --entrypoint /opt/scripts/tcpping \
+  mongoshell:latest \
+    -d -x 5 google.com 443

@@ -4,11 +4,13 @@ RUN apt-get update && \
     apt-get upgrade --yes
 
 RUN apt-get install --yes \
+      bridge-utils \
       curl \
       dnsutils \
       jq \
       mtr \
       tcpdump \
+      traceroute \
       wget
 
 RUN mkdir --parents /tmp/mongodb/install && \
@@ -19,8 +21,11 @@ RUN mkdir --parents /tmp/mongodb/install && \
 
 FROM base
 
-ADD entrypoint /opt/mongodb/entrypoint
+ADD entrypoint /opt/scripts/entrypoint
+ADD tcpping /opt/scripts/tcpping
 
-ENTRYPOINT ["/opt/mongodb/entrypoint"]
+ENV PATH=${PATH}:/opt/scripts
 
-WORKDIR /opt/mongodb/
+ENTRYPOINT ["/opt/scripts/entrypoint"]
+
+WORKDIR /opt/scripts/
