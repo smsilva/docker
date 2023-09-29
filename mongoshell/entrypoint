@@ -65,7 +65,7 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 if [ -z "${MONGODB_HOST}${MONGODB_DATABASE_NAME}${MONGODB_USERNAME}${MONGODB_PASSWORD}" ] && \
    [ -z "${MONGODB_CONNECTION_STRING}" ]; then
-  echo "You must informa MONGODB parameters."
+  echo "You must inform MONGODB parameters."
   show_usage
   exit 1
 fi
