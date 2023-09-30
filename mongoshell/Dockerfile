@@ -1,20 +1,9 @@
-FROM ubuntu:22.04 AS base
+FROM silviosilva/ubuntu:22.04 AS base
 
-RUN apt-get update && \
-    apt-get upgrade --yes
-
-RUN apt-get install --yes \
-      bridge-utils \
-      curl \
-      dnsutils \
-      jq \
-      mtr \
-      tcpdump \
-      traceroute \
-      wget
+ARG MONGOSH_VERSION=1.10.6
 
 RUN mkdir --parents /tmp/mongodb/install && \
-    wget "https://downloads.mongodb.com/compass/mongodb-mongosh_1.10.6_amd64.deb" \
+    wget "https://downloads.mongodb.com/compass/mongodb-mongosh_${MONGOSH_VERSION?}_amd64.deb" \
       --output-document /tmp/mongodb/install/mongodb-mongosh.deb && \
     dpkg -i /tmp/mongodb/install/mongodb-mongosh.deb && \
     rm -rf /tmp/mongodb/install/

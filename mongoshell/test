@@ -3,7 +3,9 @@ echo
 echo "1. Build"
 echo
 
-docker build -t mongoshell .
+docker build \
+  --build-arg MONGOSH_VERSION=1.10.6 \
+  --tag mongoshell .
 
 echo
 echo "2. Default"
@@ -32,7 +34,9 @@ docker run \
     --command 'printjson(db.accounts.find( { "account_id": 702610 } ))'
 
 export MONGODB_PASSWORD_URL_ENCODED=$(printf %s "${MONGODB_PASSWORD?}" | jq -sRr @uri)
-export MONGODB_CONNECTION_STRING="mongodb+srv://${MONGODB_USERNAME?}:${MONGODB_PASSWORD_URL_ENCODED}@${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}?readPreference=secondaryPreferred&readPreferenceTags=workloadType:OPERATIONAL&retryWrites=true&w=majority&maxStalenessSeconds=90&maxIdleTimeMS=1500000&appName=mongoshell&minPoolSize=10"
+export MONGODB_CONNECTION_STRING_MONGODB_ATLAS="mongodb+srv://${MONGODB_USERNAME?}:${MONGODB_PASSWORD_URL_ENCODED}@${MONGODB_HOST?}/${MONGODB_DATABASE_NAME?}?readPreference=secondaryPreferred&readPreferenceTags=workloadType:OPERATIONAL&retryWrites=true&w=majority&maxStalenessSeconds=90&maxIdleTimeMS=1500000&appName=mongoshell&minPoolSize=10"
+export MONGODB_CONNECTION_STRING_COSMOSDB_FOR_MONGODB="mongodb://${MONGODB_USERNAME?}:${MONGODB_PASSWORD_URL_ENCODED}@${MONGODB_HOST?}/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@${MONGODB_USERNAME?}@"
+export MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING_COSMOSDB_FOR_MONGODB?}
 
 echo
 echo "4. Connection string"
