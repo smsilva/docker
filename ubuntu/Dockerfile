@@ -10,6 +10,8 @@ RUN apt-get install --yes \
       dnsutils \
       jq \
       mtr \
+      netcat \
       tcpdump \
+      telnet \
       traceroute \
       wget
