@@ -1,6 +1,6 @@
 FROM silviosilva/ubuntu:22.04 AS base
 
-ARG MONGOSH_VERSION=1.10.6
+ARG MONGOSH_VERSION=2.0.1
 
 RUN mkdir --parents /tmp/mongodb/install && \
     wget "https://downloads.mongodb.com/compass/mongodb-mongosh_${MONGOSH_VERSION?}_amd64.deb" \
