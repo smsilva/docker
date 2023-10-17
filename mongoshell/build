@@ -1,5 +1,5 @@
 #!/bin/bash
-export MONGOSH_VERSION=${1-2.0.1}
+export MONGOSH_VERSION=${1-2.0.2}
 
 docker build \
   --build-arg MONGOSH_VERSION=${MONGOSH_VERSION?} \
