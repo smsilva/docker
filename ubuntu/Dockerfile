@@ -8,6 +8,7 @@ RUN apt-get install --yes \
       bridge-utils \
       curl \
       dnsutils \
+      gpg \
       jq \
       mtr \
       netcat \
