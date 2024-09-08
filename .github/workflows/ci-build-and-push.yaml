@@ -100,8 +100,8 @@ jobs:
           git status
 
           echo "Setting up git user"
-          git config user.name "github-actions[bot]"
-          git config user.email "${SMSILVA_GITHUB_ACTION_ID}+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "ci-agent"
+          git config --global user.email "${SMSILVA_GITHUB_ACTION_ID}+ci-agent@silvios.me"
 
           if [ -f ~/.gitconfig ]; then
             echo "Found ~/.gitconfig"
@@ -116,6 +116,7 @@ jobs:
           echo "Trying to bump version..."
           docker run --rm \
             --volume $PWD:/app \
+            --volume ~/.gitconfig:/etc/gitconfig \
             --user $(id -u) \
             commitizen/commitizen:latest --debug \
               bump \
