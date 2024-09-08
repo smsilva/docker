@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          fetch-tags: true
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -73,13 +74,11 @@ jobs:
           echo "COMMIT_HASH.......: ${COMMIT_HASH}"
           echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
 
+          echo "Trying to list tags..."
           git tag --list
 
-          echo ""
-
+          echo "Trying to show status..."
           git status
-
-          echo "Trying to bump version..."
 
           if [ -f ~/.gitconfig ]; then
             echo "Found ~/.gitconfig"
@@ -87,6 +86,8 @@ jobs:
           else
             echo "No ~/.gitconfig found"
           fi
+
+          echo "Trying to bump version..."
 
           docker run --rm \
             --volume $PWD:/app \
