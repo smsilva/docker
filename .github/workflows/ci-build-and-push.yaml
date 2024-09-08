@@ -71,6 +71,14 @@ jobs:
           echo "COMMIT_HASH.......: ${COMMIT_HASH}"
           echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
 
+          find $PWD
+
+          echo ""
+
+          git status
+
+          echo "Trying to bump version..."
+
           docker run --rm \
             --volume $PWD:/app \
             --volume ~/.gitconfig:/etc/gitconfig \
@@ -80,10 +88,5 @@ jobs:
                 --changelog \
                 --annotated-tag-message "original-commit-sha: ${COMMIT_HASH?}"
 
-          find $PWD
-
-          echo ""
-
-          git status
           git push
           git push --tags
