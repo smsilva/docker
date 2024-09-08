@@ -84,6 +84,7 @@ jobs:
       - name: Bump version
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           SMSILVA_GITHUB_ACTION_ID: ${{ vars.SMSILVA_GITHUB_ACTION_ID }}
         run: |
           echo "PWD......................: $PWD"
@@ -115,6 +116,8 @@ jobs:
 
           echo "Trying to bump version..."
           docker run --rm \
+            --env GITHUB_TOKEN="${GH_TOKEN?}" \
+            --env GH_TOKEN="${GH_TOKEN?}" \
             --volume $PWD:/app \
             --volume ~/.gitconfig:/etc/gitconfig \
             --user $(id -u) \
