@@ -1,3 +1,10 @@
+## 0.11.0 (2024-09-08)
+
+### Feat
+
+- update build and push workflow
+- update build and push workflow
+
 ## 0.10.0 (2024-09-08)
 
 ### Feat
