@@ -1,3 +1,9 @@
+## 0.23.1 (2024-09-08)
+
+### Refactor
+
+- **.github/workflows/ci-build-and-push.yaml**: steps
+
 ## 0.23.0 (2024-09-08)
 
 ### Feat
