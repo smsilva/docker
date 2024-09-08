@@ -1,10 +1,6 @@
 name: ci-example-release-by-tag
 
 on:
-  push:
-    tags:
-      - '**'
-
   workflow_dispatch:
     inputs:
       tag:
