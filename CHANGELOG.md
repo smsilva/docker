@@ -1,3 +1,9 @@
+## 0.15.0 (2024-09-08)
+
+### Feat
+
+- update release by tag workflow
+
 ## 0.14.0 (2024-09-08)
 
 ### Feat
