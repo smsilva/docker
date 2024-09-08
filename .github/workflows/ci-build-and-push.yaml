@@ -17,6 +17,8 @@ jobs:
   build-and-push:
     if: "!startsWith(github.event.head_commit.message, 'bump')"
     runs-on: ubuntu-latest
+    environment: 
+      name: continuos-integration
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
