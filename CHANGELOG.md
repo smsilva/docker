@@ -1,3 +1,12 @@
+## 0.3.0 (2024-09-08)
+
+### Feat
+
+- **.github/workflows/**: update ci worflows
+- **.github/workflows/**: update ci worflows
+- **.github/workflows/**: update to build on commit
+- **.github/workflows/**: update to build on commit
+
 ## 0.2.0 (2024-09-08)
 
 ### Feat
