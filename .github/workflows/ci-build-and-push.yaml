@@ -99,9 +99,9 @@ jobs:
           echo "Trying to show status..."
           git status
 
-          # echo "Setting up git user"
-          # git config user.name github-actions[bot]
-          # git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          echo "Setting up git user"
+          git config user.name "github-actions[bot]"
+          git config user.email "${SMSILVA_GITHUB_ACTION_ID}+github-actions[bot]@users.noreply.github.com"
 
           if [ -f ~/.gitconfig ]; then
             echo "Found ~/.gitconfig"
