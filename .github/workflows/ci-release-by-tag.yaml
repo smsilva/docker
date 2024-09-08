@@ -16,14 +16,17 @@ jobs:
       - name: Extract previous commit hash
         id: previous-commit
         run: |
-          CURRENT_COMMIT_HASH=${GITHUB_SHA}
+          # Extract the previous commit hash
+          PREVIOUS_COMMIT_HASH=$(git rev-list --parents -n 1 ${CURRENT_COMMIT_HASH} | awk '{print $2}')
 
-          PREVIOUS_COMMIT_HASH=$(git rev-list --parents -n 1 ${GITHUB_SHA} | awk '{print $2}')
-          
+          # Log the current and previous commit hashes          
           echo "CURRENT_COMMIT_HASH..: ${CURRENT_COMMIT_HASH}"
           echo "PREVIOUS_COMMIT_HASH.: ${PREVIOUS_COMMIT_HASH}"
 
+          # Save the previous commit hash as an environment variable
           echo "PREVIOUS_COMMIT_HASH=${PREVIOUS_COMMIT_HASH}" >> $GITHUB_ENV
+        env:
+          CURRENT_COMMIT_HASH: ${{ github.sha }}
 
       - name: Log Previous Commit Hash
         run: |
