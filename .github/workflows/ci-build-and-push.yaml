@@ -79,9 +79,15 @@ jobs:
 
           echo "Trying to bump version..."
 
+          if [ -f ~/.gitconfig ]; then
+            echo "Found ~/.gitconfig"
+            cat ~/.gitconfig
+          else
+            echo "No ~/.gitconfig found"
+          fi
+
           docker run --rm \
             --volume $PWD:/app \
-            --volume ~/.gitconfig:/etc/gitconfig \
             --user $(id -u) \
             commitizen/commitizen:latest --debug \
               bump \
