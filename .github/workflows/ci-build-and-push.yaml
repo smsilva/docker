@@ -80,8 +80,9 @@ jobs:
           echo "Trying to show status..."
           git status
 
-          git config --global user.email "ci-agent@silvios.me"
-          git config --global user.name "agent-github-ci"
+          echo "Setting up git user"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
           if [ -f ~/.gitconfig ]; then
             echo "Found ~/.gitconfig"
