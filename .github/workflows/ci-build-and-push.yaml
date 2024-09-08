@@ -66,7 +66,22 @@ jobs:
 
           docker push ${DOCKER_IMAGE_NAME}
 
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.SMSILVA_GITHUB_ACTION_ID }}
+          private-key: ${{ secrets.SMSILVA_GITHUB_ACTION_CLIENT_PRIVATE_KEY }}
+
+      - name: Use the token
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh api octocat
+
       - name: Bump version
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           echo "PWD...............: $PWD"
           echo "GITHUB_REPOSITORY.: ${GITHUB_REPOSITORY}"
