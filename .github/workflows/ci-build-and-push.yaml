@@ -84,12 +84,14 @@ jobs:
       - name: Bump version
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          SMSILVA_GITHUB_ACTION_ID: ${{ vars.SMSILVA_GITHUB_ACTION_ID }}
         run: |
-          echo "PWD...............: $PWD"
-          echo "GITHUB_REPOSITORY.: ${GITHUB_REPOSITORY}"
-          echo "GITHUB_SHA........: ${GITHUB_SHA}"
-          echo "COMMIT_HASH.......: ${COMMIT_HASH}"
-          echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
+          echo "PWD......................: $PWD"
+          echo "SMSILVA_GITHUB_ACTION_ID.: ${SMSILVA_GITHUB_ACTION_ID}"
+          echo "GITHUB_REPOSITORY........: ${GITHUB_REPOSITORY}"
+          echo "GITHUB_SHA...............: ${GITHUB_SHA}"
+          echo "COMMIT_HASH..............: ${COMMIT_HASH}"
+          echo "DOCKER_IMAGE_NAME........: ${DOCKER_IMAGE_NAME}"
 
           echo "Trying to list tags..."
           git tag --list
@@ -97,9 +99,9 @@ jobs:
           echo "Trying to show status..."
           git status
 
-          echo "Setting up git user"
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          # echo "Setting up git user"
+          # git config user.name github-actions[bot]
+          # git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
           if [ -f ~/.gitconfig ]; then
             echo "Found ~/.gitconfig"
