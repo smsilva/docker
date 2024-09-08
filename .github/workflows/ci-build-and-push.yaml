@@ -86,37 +86,41 @@ jobs:
           cat ~/.gitconfig
 
       - name: Bump version
-        env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          echo "GITHUB_REPOSITORY........: ${GITHUB_REPOSITORY}"
-          echo "GITHUB_SHA...............: ${GITHUB_SHA}"
           echo "SHORT_COMMIT_HASH........: ${SHORT_COMMIT_HASH}"
-          echo "DOCKER_IMAGE_NAME........: ${DOCKER_IMAGE_NAME}"
 
           echo "::group::Pulling commitizen/commitizen:latest..."
-          docker pull commitizen/commitizen:latest --quiet
+          docker pull commitizen/commitizen:3 --quiet
           echo "::endgroup::"
 
           echo "Trying to bump version..."
           docker run --rm \
-            --env GITHUB_TOKEN="${GH_TOKEN?}" \
-            --env GH_TOKEN="${GH_TOKEN?}" \
             --volume $PWD:/app \
             --volume ~/.gitconfig:/etc/gitconfig \
             --user $(id -u) \
-            commitizen/commitizen:latest \
+            commitizen/commitizen:3 \
               bump \
                 --changelog \
                 --annotated-tag-message "original-commit-sha: ${SHORT_COMMIT_HASH?}"
 
-          echo "Pushing changes..."
+          echo "::group::Pushing changes..."
           git push
           git push --tags
+          echo "::endgroup::"
 
           # Get the bumped version
           BUMPED_VERSION=$(grep version: .cz.yaml | awk '{ print $2 }')
 
+          # Log the bumped version
+          echo "BUMPED_VERSION...........: ${BUMPED_VERSION}"
+
+          # Save the bumped version to the environment
+          echo "BUMPED_VERSION=${BUMPED_VERSION}" >> $GITHUB_ENV
+
+      - name: Triggering release by tag workflow
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
           # Log the bumped version
           echo "BUMPED_VERSION...........: ${BUMPED_VERSION}"
 
