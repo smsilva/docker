@@ -1,3 +1,9 @@
+## 0.8.0 (2024-09-08)
+
+### Feat
+
+- **.github/workflows/**: update ci worflows scripts
+
 ## 0.7.0 (2024-09-08)
 
 ### Feat
