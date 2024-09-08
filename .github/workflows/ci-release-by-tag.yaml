@@ -65,3 +65,19 @@ jobs:
           echo "DOCKER_IMAGE_NAME...: ${DOCKER_IMAGE_NAME}"
 
           docker pull ${DOCKER_IMAGE_NAME?}
+
+      - name: Release Docker Image
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          DOCKER_BASE_NAME=$(awk -F ':' '{ print $2 }' <<< "${DOCKER_IMAGE_NAME}")
+          DOCKER_IMAGE_RELEASE_NAME=${DOCKER_BASE_NAME}:${TAG}
+
+          echo "TAG.......................: ${TAG}"
+          echo "DOCKER_IMAGE_NAME.........: ${DOCKER_IMAGE_NAME}"
+          echo "DOCKER_BASE_NAME..........: ${DOCKER_BASE_NAME}"
+          echo "DOCKER_IMAGE_RELEASE_NAME.: ${DOCKER_IMAGE_RELEASE_NAME}"
+
+          # Tag and push the Docker image
+          docker tag ${DOCKER_IMAGE_NAME} ${DOCKER_IMAGE_RELEASE_NAME}
+          docker push ${DOCKER_IMAGE_RELEASE_NAME}
