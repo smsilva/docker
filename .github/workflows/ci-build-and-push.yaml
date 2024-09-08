@@ -84,7 +84,7 @@ jobs:
             --volume ~/.gitconfig:/etc/gitconfig \
             --user $(id -u) \
             commitizen/commitizen:latest \
-              bump \
+              bump --debug \
                 --changelog \
                 --annotated-tag-message "original-commit-sha: ${COMMIT_HASH?}"
 
