@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -71,7 +73,7 @@ jobs:
           echo "COMMIT_HASH.......: ${COMMIT_HASH}"
           echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
 
-          find $PWD
+          git tag --list
 
           echo ""
 
