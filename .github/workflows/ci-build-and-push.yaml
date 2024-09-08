@@ -10,8 +10,6 @@ on:
       - ".github/workflows/**"
       - '!**/README.md'
       - '!**/CHANGELOG.md'
-  
-  workflow_dispatch:
 
 jobs:
   build-and-push:
