@@ -8,7 +8,7 @@ docker run --rm \
       --changelog \
       --annotated-tag-message "original-commit-sha: $(git rev-parse HEAD)"
 
-git show 0.7.0 \
+git show 0.16.0 \
   --pretty="%N" \
   --no-patch \
 | grep "original-commit-sha:" \

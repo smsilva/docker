@@ -22,37 +22,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
-
-      - name: Extract previous commit hash
-        id: previous-commit
-        run: |
-          # Extract the previous commit hash
-          PREVIOUS_COMMIT_HASH=$(git rev-list --parents -n 1 ${CURRENT_COMMIT_HASH} | awk '{print $2}')
-
-          # Log the current and previous commit hashes          
-          echo "CURRENT_COMMIT_HASH..: ${CURRENT_COMMIT_HASH}"
-          echo "PREVIOUS_COMMIT_HASH.: ${PREVIOUS_COMMIT_HASH}"
-
-          # Save the previous commit hash as an environment variable
-          echo "PREVIOUS_COMMIT_HASH=${PREVIOUS_COMMIT_HASH}" >> $GITHUB_ENV
-        env:
-          CURRENT_COMMIT_HASH: ${{ github.sha }}
-
-      - name: Log Previous Commit Hash
-        run: |
-          echo "Previous commit hash is: ${{ env.PREVIOUS_COMMIT_HASH }}"
-
-      - name: Update base image
-        run: |
-          # Exemplo de atualização de imagem base
-          echo "Updating base image with new version..."
-      
+          fetch-depth: 0
+          fetch-tags: true
+     
       - name: Log Triggered Tag
+        env:
+          TAG: ${{ inputs.tag }}
         run: |
-          TAG_NAME=${GITHUB_REF##*/}
-
           echo "GITHUB_REF....: ${GITHUB_REF}"
-          echo "TAG_NAME......: ${TAG_NAME}"
+          echo "TAG...........: ${TAG}"
 
-          echo "The tag that triggered this workflow is: $TAG_NAME"
+          git show ${TAG} \
+            --pretty="%N" \
+            --no-patch \
+          | grep "original-commit-sha:" \
+          | awk '{ print $2 }'
