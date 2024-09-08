@@ -1,5 +1,5 @@
 name: ci-example-release-by-tag
-run-name: ci-example-release-by-tag: ${{ inputs.tag }}
+run-name: ci-example-release-by-tag ${{ inputs.tag }}
 
 on:
   workflow_dispatch:
