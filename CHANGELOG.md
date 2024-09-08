@@ -1,3 +1,9 @@
+## 0.3.1 (2024-09-08)
+
+### Fix
+
+- **.github/workflows/ci-release-by-tag.yaml**: condition
+
 ## 0.3.0 (2024-09-08)
 
 ### Feat
