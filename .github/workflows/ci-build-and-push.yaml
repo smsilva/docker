@@ -37,22 +37,22 @@ jobs:
       - name: Extract short SHA
         id: vars
         run: |
-          COMMIT_HASH=$(echo $GITHUB_SHA | cut -c1-7)
-          echo "COMMIT_HASH=${COMMIT_HASH}" >> $GITHUB_ENV
+          SHORT_COMMIT_HASH=$(echo $GITHUB_SHA | cut -c1-7)
+          echo "SHORT_COMMIT_HASH=${SHORT_COMMIT_HASH}" >> $GITHUB_ENV
 
           echo "GITHUB_REPOSITORY.: ${GITHUB_REPOSITORY}"
           echo "GITHUB_SHA........: ${GITHUB_SHA}"
-          echo "COMMIT_HASH.......: ${COMMIT_HASH}"
+          echo "SHORT_COMMIT_HASH.: ${SHORT_COMMIT_HASH}"
 
       - name: Build Docker image
         run: |
-          DOCKER_IMAGE_NAME=ghcr.io/${{ github.repository }}:${COMMIT_HASH}
+          DOCKER_IMAGE_NAME=ghcr.io/${{ github.repository }}:${SHORT_COMMIT_HASH}
 
           echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> $GITHUB_ENV
 
           echo "GITHUB_REPOSITORY.: ${GITHUB_REPOSITORY}"
           echo "GITHUB_SHA........: ${GITHUB_SHA}"
-          echo "COMMIT_HASH.......: ${COMMIT_HASH}"
+          echo "SHORT_COMMIT_HASH.: ${SHORT_COMMIT_HASH}"
           echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
 
           docker build -t ${DOCKER_IMAGE_NAME} ./ci-example
@@ -61,7 +61,7 @@ jobs:
         run: |
           echo "GITHUB_REPOSITORY.: ${GITHUB_REPOSITORY}"
           echo "GITHUB_SHA........: ${GITHUB_SHA}"
-          echo "COMMIT_HASH.......: ${COMMIT_HASH}"
+          echo "SHORT_COMMIT_HASH.: ${SHORT_COMMIT_HASH}"
           echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
 
           docker push ${DOCKER_IMAGE_NAME}
@@ -82,25 +82,17 @@ jobs:
       - name: Bump version
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           SMSILVA_GITHUB_ACTION_ID: ${{ vars.SMSILVA_GITHUB_ACTION_ID }}
         run: |
-          echo "PWD......................: $PWD"
           echo "SMSILVA_GITHUB_ACTION_ID.: ${SMSILVA_GITHUB_ACTION_ID}"
           echo "GITHUB_REPOSITORY........: ${GITHUB_REPOSITORY}"
           echo "GITHUB_SHA...............: ${GITHUB_SHA}"
-          echo "COMMIT_HASH..............: ${COMMIT_HASH}"
+          echo "SHORT_COMMIT_HASH........: ${SHORT_COMMIT_HASH}"
           echo "DOCKER_IMAGE_NAME........: ${DOCKER_IMAGE_NAME}"
 
-          echo "Trying to list tags..."
-          git tag --list
-
-          echo "Trying to show status..."
-          git status
-
-          echo "Setting up git user"
+          echo "::group::Setting up git user"
           git config --global user.name github-actions[bot]
-          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config --global user.email ${{ vars.SMSILVA_GITHUB_ACTION_ID }}+github-actions[bot]@users.noreply.github.com
 
           if [ -f ~/.gitconfig ]; then
             echo "Found ~/.gitconfig"
@@ -108,9 +100,11 @@ jobs:
           else
             echo "No ~/.gitconfig found"
           fi
+          echo "::endgroup::"
 
-          echo "Pulling commitizen/commitizen:latest..."
+          echo "::group::Pulling commitizen/commitizen:latest..."
           docker pull commitizen/commitizen:latest --quiet
+          echo "::endgroup::"
 
           echo "Trying to bump version..."
           docker run --rm \
@@ -119,10 +113,20 @@ jobs:
             --volume $PWD:/app \
             --volume ~/.gitconfig:/etc/gitconfig \
             --user $(id -u) \
-            commitizen/commitizen:latest --debug \
+            commitizen/commitizen:latest \
               bump \
                 --changelog \
-                --annotated-tag-message "original-commit-sha: ${COMMIT_HASH?}"
+                --annotated-tag-message "original-commit-sha: ${SHORT_COMMIT_HASH?}"
 
+          echo "Pushing changes..."
           git push
           git push --tags
+
+          # Get the bumped version
+          BUMPED_VERSION=$(grep version: .cz.yaml | awk '{ print $2 }')
+
+          # Log the bumped version
+          echo "BUMPED_VERSION...........: ${BUMPED_VERSION}"
+
+          echo "Triggering ci-release-by-tag workflow..."
+          gh workflow run ci-example-release-by-tag --field tag=${BUMPED_VERSION?} 

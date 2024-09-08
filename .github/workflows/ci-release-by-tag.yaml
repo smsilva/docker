@@ -25,15 +25,21 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
      
-      - name: Log Triggered Tag
+      - name: Retrieve Original Commit SHA
         env:
           TAG: ${{ inputs.tag }}
         run: |
-          echo "GITHUB_REF....: ${GITHUB_REF}"
-          echo "TAG...........: ${TAG}"
+          echo "TAG.................: ${TAG}"
 
-          git show ${TAG} \
-            --pretty="%N" \
-            --no-patch \
-          | grep "original-commit-sha:" \
-          | awk '{ print $2 }'
+          ORIGINAL_COMMIT_SHA=$(
+            git show ${TAG} \
+              --pretty="%N" \
+              --no-patch \
+            | grep "original-commit-sha:" \
+            | awk '{ print $2 }'
+          )
+
+          echo "ORIGINAL_COMMIT_SHA.: ${ORIGINAL_COMMIT_SHA}"
+
+          # Save ORIGINAL_COMMIT_SHA
+          echo "ORIGINAL_COMMIT_SHA=${ORIGINAL_COMMIT_SHA}" >> $GITHUB_ENV

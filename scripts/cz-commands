@@ -13,3 +13,5 @@ git show 0.16.0 \
   --no-patch \
 | grep "original-commit-sha:" \
 | awk '{ print $2 }'
+
+gh workflow run ci-example-release-by-tag --field tag=0.16.0
