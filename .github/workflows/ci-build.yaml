@@ -1,12 +1,16 @@
-name: Docker Build and Deploy
+name: ci-example build-and-push
 
 on:
   push:
     branches:
       - main
 
+    paths:
+      - "ci-example/**"
+
 jobs:
   build-and-push:
+    if: "!startsWith(github.event.head_commit.message, 'bump')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,4 +28,4 @@ jobs:
 
       - name: Extract short SHA
         id: vars
-        run: echo "commit_sha=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+        run: echo "commit_sha=$(echo $GITHUB_SHA | cut -c1-7)" | tee -a $GITHUB_ENV
