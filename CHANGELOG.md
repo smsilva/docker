@@ -1,3 +1,9 @@
+## 0.22.0 (2024-09-08)
+
+### Feat
+
+- **.github/workflows/ci-release-by-tag.yaml**: add run-name
+
 ## 0.21.0 (2024-09-08)
 
 ### Feat
