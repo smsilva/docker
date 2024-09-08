@@ -1,0 +1,7 @@
+#!/bin/bash
+docker run --rm \
+  --volume $PWD:/app \
+  --volume ~/.gitconfig:/etc/gitconfig \
+  --user $(id -u) \
+  commitizen/commitizen:latest \
+    bump --changelog --annotated-tag-message "this is a new version"
