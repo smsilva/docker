@@ -13,6 +13,8 @@ on:
 
     types:
       - pushed
+  
+  workflow_dispatch:
 
 jobs:
   build-and-push:
