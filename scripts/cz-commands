@@ -4,4 +4,10 @@ docker run --rm \
   --volume ~/.gitconfig:/etc/gitconfig \
   --user $(id -u) \
   commitizen/commitizen:latest \
-    bump --changelog --annotated-tag-message "this is a new version"
+    bump --changelog --annotated-tag-message "original-commit-sha: $(git rev-parse HEAD)"
+
+git show 0.7.0 \
+  --pretty="format:%n" \
+  --no-patch \
+| grep "original-commit-sha:" \
+| awk '{ print $2 }'
