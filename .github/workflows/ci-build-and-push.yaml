@@ -83,8 +83,8 @@ jobs:
             --volume $PWD:/app \
             --volume ~/.gitconfig:/etc/gitconfig \
             --user $(id -u) \
-            commitizen/commitizen:latest \
-              bump --debug \
+            commitizen/commitizen:latest --debug \
+              bump \
                 --changelog \
                 --annotated-tag-message "original-commit-sha: ${COMMIT_HASH?}"
 
