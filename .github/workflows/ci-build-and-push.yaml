@@ -65,6 +65,7 @@ jobs:
 
       - name: Bump version
         run: |
+          echo "PWD...............: $PWD"
           echo "GITHUB_REPOSITORY.: ${GITHUB_REPOSITORY}"
           echo "GITHUB_SHA........: ${GITHUB_SHA}"
           echo "COMMIT_HASH.......: ${COMMIT_HASH}"
@@ -78,6 +79,10 @@ jobs:
               bump \
                 --changelog \
                 --annotated-tag-message "original-commit-sha: ${COMMIT_HASH?}"
+
+          find $PWD
+
+          echo ""
 
           git status
           git push
