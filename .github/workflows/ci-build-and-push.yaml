@@ -79,28 +79,20 @@ jobs:
         run: |
           gh api octocat
 
+      - name: Git config user name and email
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cat ~/.gitconfig
+
       - name: Bump version
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-          SMSILVA_GITHUB_ACTION_ID: ${{ vars.SMSILVA_GITHUB_ACTION_ID }}
         run: |
-          echo "SMSILVA_GITHUB_ACTION_ID.: ${SMSILVA_GITHUB_ACTION_ID}"
           echo "GITHUB_REPOSITORY........: ${GITHUB_REPOSITORY}"
           echo "GITHUB_SHA...............: ${GITHUB_SHA}"
           echo "SHORT_COMMIT_HASH........: ${SHORT_COMMIT_HASH}"
           echo "DOCKER_IMAGE_NAME........: ${DOCKER_IMAGE_NAME}"
-
-          echo "::group::Setting up git user"
-          git config --global user.name github-actions[bot]
-          git config --global user.email ${{ vars.SMSILVA_GITHUB_ACTION_ID }}+github-actions[bot]@users.noreply.github.com
-
-          if [ -f ~/.gitconfig ]; then
-            echo "Found ~/.gitconfig"
-            cat ~/.gitconfig
-          else
-            echo "No ~/.gitconfig found"
-          fi
-          echo "::endgroup::"
 
           echo "::group::Pulling commitizen/commitizen:latest..."
           docker pull commitizen/commitizen:latest --quiet

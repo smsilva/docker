@@ -70,7 +70,7 @@ jobs:
         env:
           TAG: ${{ inputs.tag }}
         run: |
-          DOCKER_BASE_NAME=$(awk -F ':' '{ print $2 }' <<< "${DOCKER_IMAGE_NAME}")
+          DOCKER_BASE_NAME=$(awk -F ':' '{ print $1 }' <<< "${DOCKER_IMAGE_NAME}")
           DOCKER_IMAGE_RELEASE_NAME=${DOCKER_BASE_NAME}:${TAG}
 
           echo "TAG.......................: ${TAG}"
