@@ -62,3 +62,23 @@ jobs:
           echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
 
           docker push ${DOCKER_IMAGE_NAME}
+
+      - name: Bump version
+        run: |
+          echo "GITHUB_REPOSITORY.: ${GITHUB_REPOSITORY}"
+          echo "GITHUB_SHA........: ${GITHUB_SHA}"
+          echo "COMMIT_HASH.......: ${COMMIT_HASH}"
+          echo "DOCKER_IMAGE_NAME.: ${DOCKER_IMAGE_NAME}"
+
+          docker run --rm \
+            --volume $PWD:/app \
+            --volume ~/.gitconfig:/etc/gitconfig \
+            --user $(id -u) \
+            commitizen/commitizen:latest \
+              bump \
+                --changelog \
+                --annotated-tag-message "original-commit-sha: ${COMMIT_HASH?}"
+
+          git status
+          git push
+          git push --tags
