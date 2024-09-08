@@ -100,8 +100,8 @@ jobs:
           git status
 
           echo "Setting up git user"
-          git config --global user.name "ci-agent"
-          git config --global user.email "${SMSILVA_GITHUB_ACTION_ID}+ci-agent@silvios.me"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
 
           if [ -f ~/.gitconfig ]; then
             echo "Found ~/.gitconfig"
