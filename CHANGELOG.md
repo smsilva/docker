@@ -1,3 +1,10 @@
+## 0.10.0 (2024-09-08)
+
+### Feat
+
+- update build and push action
+- update workflows to use github app
+
 ## 0.9.0 (2024-09-08)
 
 ### Feat
