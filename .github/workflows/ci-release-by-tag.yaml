@@ -1,0 +1,39 @@
+name: ci-example-release-by-tag
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  release:
+    if: "github.event.head_commit.message.startsWith('bump')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract previous commit hash
+        id: previous-commit
+        run: |
+          PREV_COMMIT_HASH=$(git rev-list --parents -n 1 ${{ github.sha }} | awk '{print $2}')
+          echo "PREVIOUS_COMMIT_HASH=$PREV_COMMIT_HASH" >> $GITHUB_ENV
+
+      - name: Log Previous Commit Hash
+        run: |
+          echo "Previous commit hash is: ${{ env.PREVIOUS_COMMIT_HASH }}"
+
+      - name: Update base image
+        run: |
+          # Exemplo de atualização de imagem base
+          echo "Updating base image with new version..."
+      
+      - name: Log Triggered Tag
+        run: |
+          TAG_NAME=${GITHUB_REF##*/}
+
+          echo "GITHUB_REF....: ${GITHUB_REF}"
+          echo "TAG_NAME......: ${TAG_NAME}"
+
+          echo "The tag that triggered this workflow is: $TAG_NAME"
