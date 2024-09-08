@@ -10,9 +10,6 @@ on:
       - ".github/workflows/**"
       - '!**/README.md'
       - '!**/CHANGELOG.md'
-
-    types:
-      - pushed
   
   workflow_dispatch:
 
