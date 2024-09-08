@@ -1,3 +1,9 @@
+## 0.2.0 (2024-09-08)
+
+### Feat
+
+- **.github/workflows/ci-build.yaml**: add
+
 ## 0.1.0 (2024-09-08)
 
 ### Feat
