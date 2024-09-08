@@ -17,14 +17,20 @@ RUN apt-get install --yes \
       traceroute \
       wget
 
-RUN groupadd --gid 998 docker && \
+RUN groupadd \
+      --gid 1003 docker && \
     useradd \
       --uid 1001 \
       --gid docker \
       --shell /bin/bash \
       --create-home agent && \
     echo "agent:agent" | chpasswd && \
-    usermod agent --append --groups docker
+    usermod agent \
+      --append \
+      --groups docker
+
+RUN apt-get install --yes \
+      docker.io
 
 USER agent
 

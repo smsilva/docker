@@ -1,5 +1,28 @@
 #!/bin/bash
+WORK_DIRECTORY="${1:-/tmp/work}"
+
+# Create a temporary work directory
+mkdir -p "${WORK_DIRECTORY?}"
+
+# Docker socket file
+DOCKER_SOCKET_FILE="/var/run/docker.sock"
+DOCKER_SOCKET_GID=$(stat -c %g ${DOCKER_SOCKET_FILE?})
+
+# Container user and group
+CONTAINER_USER_ID=1001
+CONTAINER_GROUP_ID=${DOCKER_SOCKET_GID?}
+
+# Change the temporary work directory group
+chown :${CONTAINER_GROUP_ID?} "${WORK_DIRECTORY?}"
+
+# Allow the container to access the temporary work directory
+chmod 775 "${WORK_DIRECTORY?}"
+
 docker run \
   --interactive \
   --tty \
+  --user ${CONTAINER_USER_ID?}:${CONTAINER_GROUP_ID?} \
+  --volume ${DOCKER_SOCKET_FILE?}:${DOCKER_SOCKET_FILE?} \
+  --volume ${WORK_DIRECTORY?}:${WORK_DIRECTORY?} \
+  --group-add ${DOCKER_SOCKET_GID?} \
   --rm silviosilva/ubuntu:22.04-local $@
