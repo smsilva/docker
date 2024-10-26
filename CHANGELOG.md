@@ -1,3 +1,9 @@
+## 0.25.0 (2024-10-26)
+
+### Feat
+
+- update base images and mongoshell
+
 ## 0.24.0 (2024-10-26)
 
 ### Feat
