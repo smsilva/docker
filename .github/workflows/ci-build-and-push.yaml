@@ -7,7 +7,6 @@ on:
 
     paths:
       - "ci-example/**"
-      - ".github/workflows/**"
       - '!**/README.md'
       - '!**/CHANGELOG.md'
 
