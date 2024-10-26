@@ -3,7 +3,7 @@
 ## 1. Build using mongosh specific version
 
 ```bash
-./build 2.0.2
+./build 2.3.2
 ```
 
 ## 2. Connection string
