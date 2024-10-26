@@ -7,6 +7,8 @@ on:
     paths:
       - 'ubuntu/**'
 
+  workflow_dispatch:
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
