@@ -29,4 +29,4 @@ jobs:
           EOF
 
           echo "Test runner:"
-          repo/runner/run silviosilva/runner:22.04-local hello
+          repo/runner/run docker.io/silviosilva/runner:22.04 hello
