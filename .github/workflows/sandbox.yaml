@@ -7,6 +7,12 @@ jobs:
   execution:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:          
+          fetch-depth: 0
+          path: repo
+
       - name: shell
         run: |
           DOCKER_SOCKET_FILE="/var/run/docker.sock"
@@ -16,15 +22,17 @@ jobs:
 
           cat <<EOF
           DOCKER_SOCKET_FILE.: ${DOCKER_SOCKET_FILE}
-          DOCKER_SOCKET_GID..: ${DOCKER_SOCKET_GID}          
+          DOCKER_SOCKET_GID..: ${DOCKER_SOCKET_GID}
+          GITHUB_WORKSPACE...: ${GITHUB_WORKSPACE}
+          PWD................: ${PWD}
           EOF
-
-          pwd
 
           echo 
 
+          echo "Files at $PWD:"
           find $PWD
 
-          echo "" 
+          echo ""
 
-          runner/run silviosilva/runner:22.04-local hello
+          echo "Test runner:"
+          repo/runner/run silviosilva/runner:22.04-local hello
