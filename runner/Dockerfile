@@ -32,3 +32,5 @@ EOF
 ENV PATH="/home/agent/scripts:${PATH}"
 
 WORKDIR /home/agent
+
+ENTRYPOINT ["/home/agent/scripts/entrypoint"]

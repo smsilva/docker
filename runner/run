@@ -18,8 +18,6 @@ chown :${CONTAINER_GROUP_ID?} "${WORK_DIRECTORY?}"
 # Allow the container to access the temporary work directory
 chmod 775 "${WORK_DIRECTORY?}"
 
-INPUT_COMMANDS="${@?}"
-
 declare -A COMMANDS
 COMMANDS[0]="--rm"
 COMMANDS[1]="--user ${CONTAINER_USER_ID?}:${CONTAINER_GROUP_ID?}"
@@ -28,16 +26,10 @@ COMMANDS[3]="--volume ${WORK_DIRECTORY?}:${WORK_DIRECTORY?}"
 COMMANDS[4]="--group-add ${DOCKER_SOCKET_GID?}"
 
 if [ -t 1 ]; then
-  echo "O shell é um TTY."
-
   COMMANDS[5]="--interactive"
   COMMANDS[6]="--tty"
-else
-  echo "O shell não é um TTY."
 fi
 
-cat <<EOF
-docker run ${COMMANDS[@]} ${INPUT_COMMANDS[@]}
-EOF
+INPUT_COMMANDS=${@}
 
 docker run ${COMMANDS[@]} ${INPUT_COMMANDS[@]}
