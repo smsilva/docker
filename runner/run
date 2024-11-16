@@ -1,6 +1,5 @@
 #!/bin/bash
-DOCKER_IMAGE="${1:-silviosilva/runner:22.04-local}"
-WORK_DIRECTORY="${1:-/tmp/work}"
+WORK_DIRECTORY="${WORK_DIRECTORY:-/tmp/work}"
 
 # Create a temporary work directory
 mkdir -p "${WORK_DIRECTORY?}"
@@ -26,4 +25,4 @@ docker run \
   --volume ${DOCKER_SOCKET_FILE?}:${DOCKER_SOCKET_FILE?} \
   --volume ${WORK_DIRECTORY?}:${WORK_DIRECTORY?} \
   --group-add ${DOCKER_SOCKET_GID?} \
-  --rm ${DOCKER_IMAGE?} $@
+  --rm $@
