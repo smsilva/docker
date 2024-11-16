@@ -36,4 +36,8 @@ else
   echo "O shell não é um TTY."
 fi
 
+cat <<EOF
+docker run ${COMMANDS[@]} ${INPUT_COMMANDS[@]}
+EOF
+
 docker run ${COMMANDS[@]} ${INPUT_COMMANDS[@]}
