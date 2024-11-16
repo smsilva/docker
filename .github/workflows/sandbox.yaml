@@ -34,5 +34,10 @@ jobs:
 
           echo ""
 
+          "TTY test:"
+          tty
+
+          echo ""
+
           echo "Test runner:"
           repo/runner/run silviosilva/runner:22.04-local hello
