@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0
           path: repo
 
-      - name: shell
+      - name: Runner Tests
         run: |
           DOCKER_SOCKET_FILE="/var/run/docker.sock"
           DOCKER_SOCKET_GID=$(stat -c %g ${DOCKER_SOCKET_FILE?})
