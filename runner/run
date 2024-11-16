@@ -18,6 +18,12 @@ chown :${CONTAINER_GROUP_ID?} "${WORK_DIRECTORY?}"
 # Allow the container to access the temporary work directory
 chmod 775 "${WORK_DIRECTORY?}"
 
+COMMANDS=$@
+
+if [[ ${#COMMANDS} -eq 0 ]]; then
+  COMMANDS="silviosilva/runner:22.04"
+fi
+
 docker run \
   --interactive \
   --tty \
@@ -25,4 +31,4 @@ docker run \
   --volume ${DOCKER_SOCKET_FILE?}:${DOCKER_SOCKET_FILE?} \
   --volume ${WORK_DIRECTORY?}:${WORK_DIRECTORY?} \
   --group-add ${DOCKER_SOCKET_GID?} \
-  --rm $@
+  --rm ${COMMANDS}

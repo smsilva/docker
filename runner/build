@@ -3,4 +3,5 @@ echo
 echo "1. Build"
 echo
 
-docker build -t silviosilva/runner:22.04-local .
+docker build \
+  --tag silviosilva/runner:22.04 .

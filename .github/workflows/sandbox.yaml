@@ -18,3 +18,13 @@ jobs:
           DOCKER_SOCKET_FILE.: ${DOCKER_SOCKET_FILE}
           DOCKER_SOCKET_GID..: ${DOCKER_SOCKET_GID}          
           EOF
+
+          pwd
+
+          echo 
+
+          find $PWD
+
+          echo "" 
+
+          runner/run silviosilva/runner:22.04-local hello
