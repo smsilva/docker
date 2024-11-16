@@ -1,0 +1,20 @@
+name: sandbox
+
+on:
+  workflow_dispatch:
+
+jobs:
+  execution:
+    runs-on: ubuntu-latest
+    steps:
+      - name: shell
+        run: |
+          DOCKER_SOCKET_FILE="/var/run/docker.sock"
+          DOCKER_SOCKET_GID=$(stat -c %g ${DOCKER_SOCKET_FILE?})
+
+          getent passwd
+
+          cat <<EOF
+          DOCKER_SOCKET_FILE.: ${DOCKER_SOCKET_FILE}
+          DOCKER_SOCKET_GID..: ${DOCKER_SOCKET_GID}          
+          EOF
