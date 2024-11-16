@@ -26,7 +26,14 @@ COMMANDS[1]="--user ${CONTAINER_USER_ID?}:${CONTAINER_GROUP_ID?}"
 COMMANDS[2]="--volume ${DOCKER_SOCKET_FILE?}:${DOCKER_SOCKET_FILE?}"
 COMMANDS[3]="--volume ${WORK_DIRECTORY?}:${WORK_DIRECTORY?}"
 COMMANDS[4]="--group-add ${DOCKER_SOCKET_GID?}"
-COMMANDS[5]="--interactive"
-COMMANDS[6]="--tty"
+
+if [ -t 1 ]; then
+  echo "O shell é um TTY."
+
+  COMMANDS[5]="--interactive"
+  COMMANDS[6]="--tty"
+else
+  echo "O shell não é um TTY."
+fi
 
 docker run ${COMMANDS[@]} ${INPUT_COMMANDS[@]}
