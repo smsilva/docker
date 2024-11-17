@@ -15,18 +15,4 @@ jobs:
 
       - name: Runner Tests
         run: |
-          DOCKER_SOCKET_FILE="/var/run/docker.sock"
-          DOCKER_SOCKET_GID=$(stat -c %g ${DOCKER_SOCKET_FILE?})
-
-          getent passwd
-
-          cat <<EOF
-          DOCKER_SOCKET_FILE.: ${DOCKER_SOCKET_FILE}
-          DOCKER_SOCKET_GID..: ${DOCKER_SOCKET_GID}
-          GITHUB_WORKSPACE...: ${GITHUB_WORKSPACE}
-          PWD................: ${PWD}
-
-          EOF
-
-          echo "Test runner:"
           repo/runner/run docker.io/silviosilva/runner:22.04 hello
