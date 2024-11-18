@@ -7,7 +7,7 @@ echo ""
 EXECUTION_ID=$(date +"%Y-%m-%d_%H-%M-%S.%3N")
 
 # Create directories
-TEMPORARY_DIRECTORY="/tmp/work/${EXECUTION_ID?}"
+TEMPORARY_DIRECTORY="${WORK_DIRECTORY?}/${EXECUTION_ID?}"
 LOGS_DIRECTORY="${TEMPORARY_DIRECTORY?}/logs"
 mkdir -p "${TEMPORARY_DIRECTORY?}"
 mkdir -p "${LOGS_DIRECTORY?}"
