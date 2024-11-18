@@ -3,12 +3,12 @@
 # This will change the default values:
 #   - -rw-r--r-- to -rw-rw-r-- for new files, and
 #   - drwxr-xr-x to -rwxrwxr-x for new directories
-# umask 0002
+umask 0002
 
 # This will change the default values:
 #   - -rw-r--r-- to -rw-rw-rw- for new files, and
 #   - drwxr-xr-x to drwxrwxrwx for new directories
-umask 0000
+# umask 0000
 
 INPUT_COMMANDS=${@}
 

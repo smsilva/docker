@@ -16,7 +16,7 @@ CONTAINER_GROUP_ID=${DOCKER_SOCKET_GID?}
 chown :${CONTAINER_GROUP_ID?} "${WORK_DIRECTORY?}"
 
 # Allow the container to access the temporary work directory
-chmod 777 "${WORK_DIRECTORY?}"
+chmod 775 "${WORK_DIRECTORY?}"
 
 declare -A COMMANDS
 

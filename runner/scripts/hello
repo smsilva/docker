@@ -1,4 +1,7 @@
 #!/bin/bash
+# Show user and group information
+id
+echo ""
 
 # Generate an execution ID in the format: YYYY-MM-DD_HH-MM-SS.nnn
 EXECUTION_ID=$(date +"%Y-%m-%d_%H-%M-%S.%3N")
@@ -22,10 +25,6 @@ cp "${HELLO_FILE_FIRST?}" "${HELLO_FILE_SECOND?}"
 # Show files and permissions
 echo "${TEMPORARY_DIRECTORY?}"
 find "${TEMPORARY_DIRECTORY?}" -type f -exec ls -lh {} \;
-echo ""
-
-# Show user and group information
-id
 echo ""
 
 # Try to run a Docker container
