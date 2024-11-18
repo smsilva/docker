@@ -1,8 +1,6 @@
 FROM silviosilva/ubuntu:22.04
 
-RUN groupadd \
-      --gid 1003 docker && \
-    apt-get install --yes \
+RUN apt-get install --yes \
       docker.io
 
 RUN groupadd \

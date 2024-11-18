@@ -28,4 +28,6 @@ find "${TEMPORARY_DIRECTORY?}" -type f -exec ls -lh {} \;
 echo ""
 
 # Try to run a Docker container
+ls -lh /var/run/docker.sock
+echo ""
 docker run --rm hello-world | grep --extended-regexp "^This message"
