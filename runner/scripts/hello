@@ -3,12 +3,13 @@
 # Generate an execution ID in the format: YYYY-MM-DD_HH-MM-SS.nnn
 EXECUTION_ID=$(date +"%Y-%m-%d_%H-%M-%S.%3N")
 
+# Create directories
 TEMPORARY_DIRECTORY="/tmp/work/${EXECUTION_ID?}"
 LOGS_DIRECTORY="${TEMPORARY_DIRECTORY?}/logs"
-
 mkdir -p "${TEMPORARY_DIRECTORY?}"
 mkdir -p "${LOGS_DIRECTORY?}"
 
+# Create a file and copy it
 HELLO_FILE_FIRST="${TEMPORARY_DIRECTORY?}/hello.txt"
 HELLO_FILE_SECOND="${LOGS_DIRECTORY?}/hello.txt"
 
@@ -18,13 +19,14 @@ EOF
 
 cp "${HELLO_FILE_FIRST?}" "${HELLO_FILE_SECOND?}"
 
-# Show file permissions
-ls -lh "${TEMPORARY_DIRECTORY?}" -R
-
+# Show files and permissions
+echo "${TEMPORARY_DIRECTORY?}"
+find "${TEMPORARY_DIRECTORY?}" -type f -exec ls -lh {} \;
 echo ""
 
 # Show user and group information
 id
+echo ""
 
 # Try to run a Docker container
 docker run --rm hello-world | grep --extended-regexp "^This message"

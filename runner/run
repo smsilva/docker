@@ -16,18 +16,23 @@ CONTAINER_GROUP_ID=${DOCKER_SOCKET_GID?}
 chown :${CONTAINER_GROUP_ID?} "${WORK_DIRECTORY?}"
 
 # Allow the container to access the temporary work directory
-chmod 775 "${WORK_DIRECTORY?}"
+chmod 777 "${WORK_DIRECTORY?}"
 
 declare -A COMMANDS
-COMMANDS[0]="--rm"
-COMMANDS[1]="--user ${CONTAINER_USER_ID?}:${CONTAINER_GROUP_ID?}"
-COMMANDS[2]="--volume ${DOCKER_SOCKET_FILE?}:${DOCKER_SOCKET_FILE?}"
-COMMANDS[3]="--volume ${WORK_DIRECTORY?}:${WORK_DIRECTORY?}"
-COMMANDS[4]="--group-add ${DOCKER_SOCKET_GID?}"
+
+add_command() {
+  COMMANDS[${#COMMANDS[@]}]="${1}"
+}
+
+add_command "--rm"
+add_command "--user ${CONTAINER_USER_ID?}:${CONTAINER_GROUP_ID?}"
+add_command "--volume ${DOCKER_SOCKET_FILE?}:${DOCKER_SOCKET_FILE?}"
+add_command "--volume ${WORK_DIRECTORY?}:${WORK_DIRECTORY?}"
+add_command "--group-add ${DOCKER_SOCKET_GID?}"
 
 if [ -t 1 ]; then
-  COMMANDS[5]="--interactive"
-  COMMANDS[6]="--tty"
+  add_command "--interactive"
+  add_command "--tty"
 fi
 
 INPUT_COMMANDS=${@}
