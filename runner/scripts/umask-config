@@ -1,0 +1,11 @@
+# This will change the default values:
+#   - 644 / -rw-r--r-- to 664 / -rw-rw-r-- for new files, and
+#   - 755 / drwxr-xr-x to 775 / -rwxrwxr-x for new directories
+VALUE=0002
+
+# This will change the default values:
+#   - 644 / -rw-r--r-- to 666 / -rw-rw-rw- for new files, and
+#   - 755 / drwxr-xr-x to 777 / drwxrwxrwx for new directories
+# VALUE=0000
+
+echo ${VALUE?}
