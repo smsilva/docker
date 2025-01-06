@@ -9,7 +9,6 @@ docker_socket_file="/var/run/docker.sock"
 docker_socket_group_id=$(stat -c %g ${docker_socket_file?})
 
 # Container user and group
-container_user_id=1001
 container_group_id=${docker_socket_group_id?}
 
 # Change the temporary work directory group.
@@ -23,11 +22,10 @@ chmod 775 "${work_directory?}"
 
 arguments=()
 arguments+=("--rm")
-arguments+=("--user ${container_user_id?}:${container_group_id?}")
 arguments+=("--env WORK_DIRECTORY=${work_directory?}")
 arguments+=("--volume ${docker_socket_file?}:${docker_socket_file?}")
 arguments+=("--volume ${work_directory?}:${work_directory?}")
-arguments+=("--group-add ${docker_socket_group_id?}")
+arguments+=("--group-add ${container_group_id?}")
 
 if [ -t 1 ]; then
   arguments+=("--interactive")
