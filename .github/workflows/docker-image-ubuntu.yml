@@ -35,4 +35,4 @@ jobs:
         with:
           context: "./ubuntu"
           push: true
-          tags: silviosilva/ubuntu:latest,silviosilva/ubuntu:22.04
+          tags: silviosilva/ubuntu:latest,silviosilva/ubuntu:24.04
