@@ -9,6 +9,7 @@ docker_socket_file="/var/run/docker.sock"
 docker_socket_group_id=$(stat -c %g ${docker_socket_file?})
 
 # Container user and group
+container_user_id=1001
 container_group_id=${docker_socket_group_id?}
 
 # Change the temporary work directory group.
@@ -16,12 +17,11 @@ container_group_id=${docker_socket_group_id?}
 chown :${container_group_id?} "${work_directory?}"
 
 # Allow the container user group to access and write into the temporary work directory
-# - 644 it's equivalent to: rw-r--r-- (default value)
-# - 775 it's equivalent to: rwxrwxr-x
-chmod 775 "${work_directory?}"
+chmod g+rwx "${work_directory?}"
 
 arguments=()
 arguments+=("--rm")
+arguments+=("--user ${container_user_id?}:${container_group_id?}")
 arguments+=("--env WORK_DIRECTORY=${work_directory?}")
 arguments+=("--volume ${docker_socket_file?}:${docker_socket_file?}")
 arguments+=("--volume ${work_directory?}:${work_directory?}")
