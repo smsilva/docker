@@ -1,33 +1,44 @@
 #!/bin/bash
 # Show user and group information
+echo "user:"
 id
 echo ""
 
+# Show umask value as human readable
+echo "umask:"
+umask -S
+echo ""
+
 # Generate an execution ID in the format: YYYY-MM-DD_HH-MM-SS.nnn
-EXECUTION_ID=$(date +"%Y-%m-%d_%H-%M-%S.%3N")
+execution_id=$(date +"%M%S.%3N")
 
 # Create directories
-TEMPORARY_DIRECTORY="${WORK_DIRECTORY?}/${EXECUTION_ID?}"
-LOGS_DIRECTORY="${TEMPORARY_DIRECTORY?}/logs"
-mkdir -p "${TEMPORARY_DIRECTORY?}"
-mkdir -p "${LOGS_DIRECTORY?}"
+temporary_directory="${WORK_DIRECTORY:-/tmp/work}/${execution_id?}"
+logs_directory="${temporary_directory?}/logs"
+mkdir --parents "${temporary_directory?}"
+mkdir --parents "${logs_directory?}"
 
 # Create a file and copy it
-HELLO_FILE_FIRST="${TEMPORARY_DIRECTORY?}/hello.txt"
-HELLO_FILE_SECOND="${LOGS_DIRECTORY?}/hello.txt"
+hello_source="${temporary_directory?}/hello.txt"
+hello_target="${logs_directory?}/hello.txt"
 
-cat <<EOF > "${HELLO_FILE_FIRST?}"
+cat <<EOF > "${hello_source?}"
 Hello, world!
 EOF
 
-cp "${HELLO_FILE_FIRST?}" "${HELLO_FILE_SECOND?}"
+cp "${hello_source?}" "${hello_target?}"
 
 # Show files and permissions
-echo "${TEMPORARY_DIRECTORY?}"
-find "${TEMPORARY_DIRECTORY?}" -type f -exec ls -lh {} \;
+echo "${temporary_directory?}:"
+find "${temporary_directory?}" -type f -exec ls -lh {} \;
 echo ""
 
-# Try to run a Docker container
-ls -lh /var/run/docker.sock
-echo ""
-docker run --rm hello-world | grep --extended-regexp "^This message"
+docker_socket="/var/run/docker.sock"
+
+if [[ -e ${docker_socket} ]]; then
+  echo "docker:"
+  ls -lh ${docker_socket}
+  echo ""
+  docker run --rm hello-world | grep --extended-regexp "^This message"
+  echo ""
+fi

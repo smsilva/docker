@@ -1,7 +1,12 @@
-FROM silviosilva/ubuntu:22.04
+FROM ubuntu:24.04
 
-RUN apt-get install --yes \
-      docker.io
+RUN apt-get update && \
+    apt-get upgrade --yes && \
+    apt-get install --yes --no-install-recommends \
+      apt-transport-https \
+    docker.io && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN groupadd \
       --gid 127 runner && \
@@ -28,6 +33,7 @@ fi
 EOF
 
 ENV PATH="/home/agent/scripts:${PATH}"
+ENV UMASK_VALUE=0002
 
 WORKDIR /home/agent
 
