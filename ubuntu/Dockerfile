@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 RUN apt-get update && \
     apt-get upgrade --yes
@@ -11,8 +11,10 @@ RUN apt-get install --yes \
       gpg \
       jq \
       mtr \
-      netcat \
+      netcat-traditional \
       tcpdump \
       telnet \
       traceroute \
       wget
+
+ENV UMASK_VALUE=0002

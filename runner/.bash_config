@@ -1,6 +1,13 @@
-# This will change the default values:
-#   - -rw-r--r-- to -rw-rw-r-- for new files, and
-#   - drwxr-xr-x to -rwxrwxr-x for new directories
+# The umask value of 0002 will change the default values as below:
+#
+#   files:
+#     from: -rw-r--r--
+#     to:   -rw-rw-r--
+# 
+#   directories:
+#     from: drwxr-xr-x
+#     to:   drwxrwxr-x
+#
 umask_value=${UMASK_VALUE:-0002}
 
 umask ${umask_value}
