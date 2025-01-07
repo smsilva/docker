@@ -3,7 +3,7 @@
 ## Build
 
 ```bash
-./build
+./build runner
 ```
 
 ## Run
