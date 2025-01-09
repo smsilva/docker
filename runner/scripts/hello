@@ -9,17 +9,14 @@ echo "umask:"
 umask -S
 echo ""
 
-# Generate an execution ID in the format: YYYY-MM-DD_HH-MM-SS.nnn
-execution_id=$(date +"%M%S.%3N")
-
 # Create directories
-temporary_directory="${WORK_DIRECTORY:-/tmp/work}/${execution_id?}"
-logs_directory="${temporary_directory?}/logs"
-mkdir --parents "${temporary_directory?}"
+work_directory="${WORK_DIRECTORY:-/tmp/work}"
+logs_directory="${work_directory?}/logs"
+mkdir --parents "${work_directory?}"
 mkdir --parents "${logs_directory?}"
 
 # Create a file and copy it
-hello_source="${temporary_directory?}/hello.txt"
+hello_source="${work_directory?}/hello.txt"
 hello_target="${logs_directory?}/hello.txt"
 
 cat <<EOF > "${hello_source?}"
@@ -28,9 +25,14 @@ EOF
 
 cp "${hello_source?}" "${hello_target?}"
 
-# Show files and permissions
-echo "${temporary_directory?}:"
-find "${temporary_directory?}" -type f -exec ls -lh {} \;
+# Show Work Directory permissions
+echo "${work_directory?}:"
+ls -lhd "${work_directory?}"
+echo ""
+
+# Show Work Directory content and permissions
+echo "${work_directory?}:"
+find "${work_directory?}" -type f -exec ls -lh {} \;
 echo ""
 
 docker_socket="/var/run/docker.sock"

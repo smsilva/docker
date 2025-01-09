@@ -22,9 +22,9 @@ RUN groupadd \
 
 USER agent
 
-ADD scripts /home/agent/scripts
+ADD scripts       /home/agent/scripts
 ADD .bash_aliases /home/agent/.bash_aliases
-ADD .bash_config /home/agent/.bash_config
+ADD .bash_config  /home/agent/.bash_config
 
 RUN cat <<EOF >> /home/agent/.bashrc
 if [ -f ~/.bash_config ]; then
