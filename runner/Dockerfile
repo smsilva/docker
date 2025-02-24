@@ -20,17 +20,19 @@ RUN groupadd \
       --append \
       --groups docker
 
-USER agent
-
 ADD scripts       /home/agent/scripts
 ADD .bash_aliases /home/agent/.bash_aliases
 ADD .bash_config  /home/agent/.bash_config
 
 RUN cat <<EOF >> /home/agent/.bashrc
 if [ -f ~/.bash_config ]; then
-    . ~/.bash_config
+  . ~/.bash_config
 fi
 EOF
+
+RUN chown --recursive agent:runner /home/agent
+
+USER agent
 
 ENV PATH="/home/agent/scripts:${PATH}"
 ENV UMASK_VALUE=0002
