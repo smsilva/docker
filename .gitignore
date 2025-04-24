@@ -1,3 +1,4 @@
+compose/metabase/mysql
 *_override.tf
 *_override.tf.json
 *.tfstate

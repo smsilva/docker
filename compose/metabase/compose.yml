@@ -1,0 +1,41 @@
+networks:
+  costs:
+    driver: bridge
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8
+    hostname: mysql
+    networks:
+      - costs
+    ports:
+      - 3306:3306
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+    volumes:
+      - ${PWD}/custom.cnf:/etc/mysql/conf.d/custom.cnf
+      - ${PWD}/mysql/data:/var/lib/mysql
+      - ${PWD}/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ${PWD}:/var/lib/mysql-files
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "${MYSQL_USER}", "-p${MYSQL_PASSWORD}", "-e", "SELECT COUNT(*) FROM metabase.dummy;"]
+      retries: 1
+
+  metabase:
+    container_name: metabase
+    image: metabase/metabase
+    hostname: metabase
+    networks:
+      - costs
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/api/health"]
+      interval: 30s
+    depends_on:
+      mysql:
+        condition: service_healthy
